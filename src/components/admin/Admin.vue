@@ -5,10 +5,12 @@
         <div style="height: 200px;background-color: #4d4d4d"></div>
         <div style="background-color: white;width: 100%;height: 200px;margin-top: 80px;display: flex;flex-direction: column">
           <a href="#" style="font-size: 32px;color: #424242">Young</a>
-          <span style="margin-top: 20px;color: #9e9e9e">坑要一个个填，路要一步步走！</span>
-          <router-link to="/admin/home" style="font-size: 16px;color: #424242;margin-top: 40px">主 页</router-link>
+          <span style="margin-top: 20px;color: #9e9e9e">You can be anyone you want to be.</span>
+          <router-link to="/admin/home?page=1" style="font-size: 16px;color: #424242;margin-top: 40px">主 页</router-link>
           <a href="#" @click="openFirstDrawer" style="font-size: 16px;color: #424242;margin-top: 15px">目 录</a>
-          <router-link to="/admin/post" style="font-size: 16px;color: #424242;margin-top: 15px">编辑博客</router-link>
+          <router-link to="/admin/image" style="font-size: 16px;color: #424242;margin-top: 15px">图片管理</router-link>
+          <router-link to="/admin/article/post" style="font-size: 16px;color: #424242;margin-top: 15px">编辑博客</router-link>
+          <router-link to="/admin/article/manage" style="font-size: 16px;color: #424242;margin-top: 15px">博客管理</router-link>
           <a href="" @click="logout" style="font-size: 16px;color: #424242;margin-top: 15px">退 出</a>
           <!--<router-link to="" style="font-size: 16px;color: #667aa6;margin-top: 15px">About Me</router-link>-->
           <!--<div style="margin-top: 60px;">-->
@@ -22,7 +24,7 @@
         </div>
         <div style="">
         </div>
-      </div>
+    </div>
       <div style="position: fixed;width: 140px;height: 140px;border-radius: 50%;background-color: white;left: 80px;top: 130px;display: flex;justify-content: center;align-items: center;z-index: 1">
         <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542185269&di=b0ec1e5b09f3a0a2c7f6f98ba232dfc1&imgtype=jpg&er=1&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201506%2F01%2F20150601135046_kwhEu.thumb.700_0.jpeg" style="width: 125px;border-radius: 50%"/>
       </div>
@@ -32,7 +34,7 @@
         <router-view></router-view>
       </transition>
     </div>
-    <Drawer color="white" title="目 录" style="" width="512" :closable="false" v-model="firstDrawer">
+    <Drawer color="white" title="目 录" style="background-color: red" width="512" :closable="false" v-model="firstDrawer">
       <Menu :theme="theme3" active-name="1" style="height: 100%" @on-select="openSecondDrawer">
         <MenuGroup title="文章分类">
           <MenuItem :name="item" v-for="item,index in typeList" :key="index">
@@ -60,7 +62,7 @@
 </template>
 
 <script>
-  import {CanvasParticle} from '../../../static/js/home_back.js'
+  import {CanvasParticle} from './home_back.js'
   export default {
     name: 'admin',
     data(){
@@ -86,7 +88,7 @@
         dist: 6000, 	//点吸附距离
         e_dist: 20000, 	//鼠标吸附加速距离
         max_conn: 10 	//点到点最大连接数
-      }
+      };
       CanvasParticle(config)
     },
     methods:{
@@ -94,7 +96,7 @@
       this.$http.get(this.GlobalVar.apiConfig.admin.adminGetAllTag).then(
           res => {
             // console.log(res.data)
-            this.typeList = res.data.data.tags
+            this.typeList = res.data.data.tags;
             this.firstDrawer = true
           },
           err => {
@@ -111,18 +113,18 @@
       openSecondDrawer(name){
         this.$http.get(this.GlobalVar.apiConfig.admin.adminGetArticleByTag + '?tag=' + name).then(
           res => {
-            console.log('Admin -> openSecondDrawer', res.data)
+            // console.log('Admin -> openSecondDrawer', res.data);
             this.articleTitles = res.data.data
           },
            err => {
             console.log('Admin -> openSecondDrawer', err)
            }
-        )
-        console.log(name);
+        );
+        // console.log(name);
         this.secondDrawer = true
       },
       goDetail(name){
-        console.log(name);
+        // console.log(name);
         this.$router.push({
           name:'admin-tool',
           query:{
@@ -138,9 +140,14 @@
 
 <style scoped>
   .admin-main{
-    background-color:#f5f5f5;
+    /*background-color:#f5f5f5;*/
     /*height: 100vh;*/
+    /*height: 100%;*/
     width: 100vw;
+  }
+
+  .ivu-drawer-header{
+    background-color: red;
   }
   .ivu-menu-item{
     color: #4d4d4d;

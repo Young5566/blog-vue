@@ -1,5 +1,5 @@
 <template>
-  <Card style="width:90%;margin-top: 20px;height: 110vh;z-index: 1">
+  <Card style="width:90%;margin-top: 20px;height: 107vh;z-index: 1">
     <div slot="title">
       <label>
         <Icon type="md-clipboard" color="white" size="30"/>
@@ -11,22 +11,26 @@
     </div>
     <div>
       <Row type="flex" justify="center">
-        <mu-text-field style="width:60%;margin-top: 4px" color="#667aa6" underline-color="#4d4d4d" v-model="article.title" placeholder="标题">
-        </mu-text-field>
+        <Input class="article-message" v-model="article.title" style="width:60%;margin-top: 4px" placeholder="标题"></Input>
       </Row>
-      <Row style="margin-top: -10px">
+      <Row style="margin-top: 10px">
         <Form inline>
           <FormItem prop="">
-            <mu-select color="#4d4d4d" placeholder="分类" underline-color="#4d4d4d" v-model="article.tags">
-              <mu-option v-for="city,index in citys" :key="city" :label="city" :value="city"></mu-option>
-            </mu-select>
+            <Select class="article-message" style="width: 200px" v-model="article.tags">
+              <Option v-for="city,index in citys" :key="city" :label="city" :value="city">{{city}}</Option>
+            </Select>
           </FormItem>
           <FormItem prop="">
-            <mu-text-field color="#667aa6" underline-color="#4d4d4d" v-model="article.secondTags" placeholder="标签"></mu-text-field>
+            <Input class="article-message" v-model="article.secondTags" style="width:100px" placeholder="标签"></Input>
+          </FormItem>
+          <FormItem prop="">
+            <Input v-model="article.image_uuid" placeholder="图片" clearable style="width: 300px">
+              <Button slot="append" style="background-color: #4d4d4d; color: white" icon="md-add" @click="Choose"></Button>
+            </Input>
           </FormItem>
         </Form>
       </Row>
-      <Row type="flex" justify="center" style="margin-top: -30px">
+      <Row type="flex" justify="center" style="margin-top: -10px">
         <mu-text-field style="width:80%;margin-top: 4px" multi-line :rows="2" color="#667aa6" underline-color="#4d4d4d" v-model="article.abstract" placeholder="摘要">
         </mu-text-field>
       </Row>
@@ -34,14 +38,26 @@
     <div style="overflow:scroll; width:100%; height:63vh;margin-top: 40px">
       <mavon-editor style="z-index: 999" @change="changeData" ref="mavonEditor" :ishljs="true" :toolbarsFlag="toolbarsFlagBoo" :subfield="subfieldStr" :default_open="previewStr" v-model="article.content"/>
     </div>
+    <Modal v-model="modal" fullscreen :footer-hide="true">
+      <p slot="header" style="text-align:center;font-size: 16px;color: white">
+        <span>选 择 图 片</span>
+      </p>
+      <choose-image ref="chooseImage" :article="article" @chooseImage="chooseImage"/>
+    </Modal>
   </Card>
 </template>
 
 <script>
+  import ChooseImage from './childs/ChooseImage'
   export default {
     name: 'admin-post',
+    components: {ChooseImage},
+    comments:[
+      ChooseImage
+    ],
     data(){
       return{
+        modal:false,
         html:'',
         article:{
           content:'## 这里是标题测试 \n' +
@@ -55,7 +71,8 @@
           title:'',
           tags:'',
           secondTags:'',
-          abstract:''
+          abstract:'',
+          image_uuid:'',
         },
         previewStr:'preview',
         subfieldStr: true,
@@ -72,7 +89,7 @@
         }else {
           this.$http.post(this.GlobalVar.apiConfig.admin.adminPostArticle, this.article).then(
             res => {
-              console.log(res.data);
+              // console.log(res.data);
               if(res.data.code === 200){
                   this.$router.push({name:"admin-home"})
               }
@@ -88,6 +105,16 @@
           title:'警告',
           content:'<p>请输入博客完整信息！</p>'
         })
+      },
+      Choose(){
+        this.modal=true;
+        this.$refs.chooseImage.currentPage=1;
+        this.$refs.chooseImage.getAllImages(1, this.$refs.chooseImage.pageSize);
+        console.log('dwadsadwda')
+      },
+      chooseImage(image){
+        this.article.image_uuid = image.image_uuid;
+        this.modal = false;
       }
     }
   }

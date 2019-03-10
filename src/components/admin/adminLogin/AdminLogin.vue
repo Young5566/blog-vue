@@ -44,7 +44,7 @@
         this.$http.post(this.GlobalVar.apiConfig.admin.adminLogin, this.userInfo).then(
           res => {
             if(res.data.code === 200) {
-              console.log('login.vue ->',res.data);
+              // console.log('login.vue ->',res.data);
               this.$store.commit('login',{
                 userInfo:{
                   userName:res.data.data.user_name,

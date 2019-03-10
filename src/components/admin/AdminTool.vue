@@ -9,7 +9,7 @@
       this.$router.replace({
         name:'admin-detail',
         query:{
-          articleID:this.$route.query.articleID
+           articleID:this.$route.query.articleID
         }
       })
     }

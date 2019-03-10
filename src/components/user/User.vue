@@ -5,7 +5,7 @@
         <div style="height: 200px;background-color: #4d4d4d"></div>
         <div style="background-color: white;width: 100%;height: 200px;margin-top: 80px;display: flex;flex-direction: column">
           <a href="#" style="font-size: 3em;color: #212121">Young</a>
-          <span style="margin-top: 20px;color: #9e9e9e">坑要一个个填，路要一步步走！</span>
+          <span style="margin-top: 20px;color: #9e9e9e">You can be anyone you want to be.</span>
           <router-link to="/" style="font-size: 16px;color: #424242;margin-top: 40px">主 页</router-link>
           <a href="#" @click="openFirstDrawer" style="font-size: 16px;color: #424242;margin-top: 15px">目 录</a>
           <!--<router-link to="/user/post" style="font-size: 16px;color: #667aa6;margin-top: 15px">编辑博客</router-link>-->
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-  import {CanvasParticle} from '../../../static/js/home_back.js'
+  import {CanvasParticle} from './home_back.js'
   export default {
     name: 'user',
     data(){
@@ -110,22 +110,22 @@
       openSecondDrawer(name){
         this.$http.get(this.GlobalVar.apiConfig.user.userGetArticleByTag + '?tag=' + name).then(
           res => {
-            console.log('user -> openSecondDrawer', res.data)
+            // console.log('user -> openSecondDrawer', res.data)
             this.articleTitles = res.data.data
           },
           err => {
             console.log('user -> openSecondDrawer', err)
           }
         )
-        console.log(name);
+        // console.log(name);
         this.secondDrawer = true
       },
-      goDetail(name){
-        console.log(name);
+      goDetail(id){
+        console.log(id);
         this.$router.push({
           name:'user-tool',
           query:{
-            articleID:name
+            articleID:id
           }
         });
         this.firstDrawer = false;
@@ -137,7 +137,7 @@
 
 <style scoped>
   .user-main{
-    background-color:#f5f5f5;
+    /*background-color:#f5f5f5;*/
     /*height: 100vh;*/
     width: 100vw;
   }

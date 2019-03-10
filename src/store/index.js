@@ -8,17 +8,19 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as type from './type'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
   userInfo:{},
   token:null,
-  currentPage:1
-}
+  AdminHomeCurrentPage:1,
+  AdminArticleManageCurrentPage:1,
+  UserHomeCurrentPage:1,
+};
 
 const mutations = {
  [type.LOGIN]: (state, data) => {
-   console.log('store->index->login',data)
+   console.log('store->index->login',data);
    if(data.userInfo){
      state.userInfo = data.userInfo;
      window.localStorage.setItem('youngUserInfo', JSON.stringify(data.userInfo));
@@ -35,8 +37,14 @@ const mutations = {
    window.localStorage.removeItem('youngToken');
    console.log('store->index-> 已注销');
   },
-  [type.CURRENTPAGE]: (state, data) => {
-    state.currentPage = data
+  [type.AdminHomeCurrentPage]: (state, data) => {
+    state.AdminHomeCurrentPage = data
+  },
+  [type.AdminArticleManageCurrentPage]: (state, data) => {
+    state.AdminArticleManageCurrentPage = data
+  },
+  [type.UserHomeCurrentPage]: (state, data) => {
+    state.UserHomeCurrentPage = data
   }
 };
 

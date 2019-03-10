@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import iView from 'iView'
 import 'iView/dist/styles/iview.css'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import axios from './http'
 import global_ from './globalVariable'
 import mavonEditor from 'mavon-editor'
@@ -16,28 +18,37 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import store from './store'
 import highlightJs from 'highlight.js';
 
-Vue.config.productionTip = false
-Vue.prototype.$http = axios
-Vue.prototype.GlobalVar = global_
-Vue.use(MuseUI)
-Vue.use(iView)
-Vue.use(mavonEditor)
+Vue.config.productionTip = false;
+Vue.prototype.$http = axios;
+Vue.prototype.GlobalVar = global_;
+Vue.use(MuseUI);
+Vue.use(iView);
+Vue.use(ElementUI);
+Vue.use(mavonEditor);
 
 Vue.prototype.successModal = function(message){
   this.$Notice.success({
-    title: '提示',
+    title: '成功提示',
     desc: message,
-    duration: 2
+    duration: 3
   });
-}
+};
 
 Vue.prototype.errorModal = function (message) {
     this.$Notice.error({
-      title: '提示',
+      title: '失败提示',
       desc: message,
       duration: 2
     });
-}
+};
+
+Vue.prototype.warnModal = function (message) {
+  this.$Notice.warning({
+    title: '警告',
+    desc: message,
+    duration: 2
+  });
+};
 
 /* eslint-disable no-new */
 new Vue({
@@ -46,4 +57,4 @@ new Vue({
   store,
   components: { App },
   template: '<App/>'
-})
+});

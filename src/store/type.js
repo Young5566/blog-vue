@@ -5,4 +5,6 @@
  */
 export const LOGIN = 'login';
 export const LOGOUT = 'logout';
-export const CURRENTPAGE = 'currentPage';
+export const AdminHomeCurrentPage = 'AdminHomeCurrentPage';
+export const AdminArticleManageCurrentPage = 'AdminArticleManageCurrentPage';
+export const UserHomeCurrentPage = 'UserHomeCurrentPage';
